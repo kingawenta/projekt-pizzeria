@@ -97,10 +97,8 @@
     // console.log('trigger: ', trigger); */
 
     /* START: click event listener to trigger */
-    thisProduct.accordionTrigger.addEventListener('click', function () {
-      /* prevent default action for event */
+    thisProduct.accordionTrigger.addEventListener('click', function (){
       event.preventDefault();
-      /* toggle active class on element of thisProduct */
       thisProduct.element.classList.toggle('active');
 
       /* find all active products */
