@@ -408,12 +408,15 @@
       console.log(thisCart.deliveryFee);
       console.log(thisCart.totalNumber);
       console.log(thisCart.subTotalPrice);
+      console.log(thisCart.totalPrice);
       
-      thisCart.dom.totalPrice.innerHTML = Number(thisCart.totalPrice);
       
       thisCart.dom.subtotalPrice.innerHTML = thisCart.subTotalPrice;
       thisCart.dom.deliveryFee.innerHTML = thisCart.deliveryFee;
       thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
+      for (let price of thisCart.dom.totalPrice) {
+        price.innerHTML = thisCart.totalPrice;
+      }
       /*thisCart.dom.totalPrice.innerHTML = thisCart.totalPrice;
   
       /* for (let key of thisCart.renderTotalsKeys) {
