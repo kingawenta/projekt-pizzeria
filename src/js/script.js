@@ -77,6 +77,11 @@
       defaultDeliveryFee: 20,
     },
     // CODE ADDED END
+    db: {
+      url: '//localhost:3131',
+      products: 'products',
+      orders: 'orders',
+    },
   };
 
   const templates = {
@@ -353,7 +358,7 @@
       thisCart.dom.form = element.querySelector(select.cart.form);
       thisCart.dom.deliveryFee = element.querySelector(select.cart.deliveryFee);
       thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
-      thisCart.dom.totalPrice = element.querySelector(select.cart.totalPrice);
+      thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = element.querySelector (select.cart.totalNumber);
     }
     initActions() {
@@ -400,7 +405,7 @@
       thisCart.totalPrice = thisCart.subTotalPrice + thisCart.deliveryFee;
   
       if (thisCart.totalNumber !== 0) {
-        thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
+        thisCart.totalPrice = thisCart.subTotalPrice + thisCart.deliveryFee;
       } else {
         thisCart.totalPrice = 0;
         thisCart.deliveryFee = 0;
@@ -424,6 +429,14 @@
           elem.innerHTML = thisCart[key];
         }
       }*/
+    }
+    remove(instanceOfProduct){
+      const thisCart = this;
+      const removeIndexElem =thisCart.products.indexOf(instanceOfProduct);
+      thisCart.products.splice(removeIndexElem, 1);
+      instanceOfProduct.dom.wrapper.remove();
+      thisCart.update();
+  
     }
     
   }
@@ -521,15 +534,24 @@
       const thisApp = this;
       console.log('thisApp.data:', thisApp.data);
       for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
 
     initData: function(){
       const thisApp = this;
   
-      thisApp.data = dataSource;
-  
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.products;
+      fetch(url)
+        .then(function (rawResponse) {
+          return rawResponse.json();
+        })
+        .then(function (parsedResponse) {
+          console.log('parsedResponse', parsedResponse);
+          thisApp.data.products = parsedResponse;
+          thisApp.initMenu();
+        });
     },
 
     init: function(){
@@ -541,7 +563,6 @@
       console.log('templates:', templates);
     
       thisApp.initData();
-      thisApp.initMenu();
       thisApp.initCart();
     },
   };
