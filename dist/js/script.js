@@ -440,7 +440,7 @@
     }
     sendOrder(){
       const thisCart = this;
-      const url = settings.db.url + '/' + settings.db.order;
+      const url = settings.db.url + '/' + settings.db.orders;
       const payload = {
         totalPrice: thisCart.totalPrice,
         subtotalPrice: thisCart.subtotalPrice,
@@ -460,13 +460,12 @@
         body: JSON.stringify(payload),
       };
 
-      fetch(url, options);
-      /*.then(function (response) {
+      fetch(url, options)
+        .then(function (response) {
           return response.json();
-        })
-        .then(function (parsedResponse) {
-          console.log('parsedResponse', parsedResponse);
-        });*/
+        }).then(function (parsedResponse) {
+          console.log(parsedResponse);
+        });
     }
   }
   class CartProduct {
