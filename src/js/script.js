@@ -360,6 +360,8 @@
       thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
       thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = element.querySelector (select.cart.totalNumber);
+      thisCart.dom.address = element.querySelector(select.cart.address);
+      thisCart.dom.phone = element.querySelector(select.cart.phone);
     }
     initActions() {
       const thisCart = this;
@@ -446,6 +448,8 @@
         subtotalPrice: thisCart.subtotalPrice,
         totalNumber: thisCart.totalNumber,
         deliveryFee: thisCart.deliveryFee,
+        address: thisCart.dom.address.value,
+        phone: thisCart.dom.phone.value,
         products: [],
       };
       for(let product of thisCart.products){
