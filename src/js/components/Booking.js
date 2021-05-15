@@ -32,7 +32,7 @@ class Booking {
     //thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
-      thisBooking.updateDOM();
+      // thisBooking.updateDOM();
     });
   }
 }
