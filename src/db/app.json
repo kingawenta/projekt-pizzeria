@@ -203,7 +203,7 @@
        }
     ],
     "orders": [],
-    "events": [
+    "event": [
       {
         "id": 1,
         "date": "2019-01-01",
@@ -255,5 +255,5 @@
         "starters": ["lemonWater"]
       }
     ],
-    "bookings": []
+    "booking": []
  }
