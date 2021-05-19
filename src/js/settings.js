@@ -28,6 +28,7 @@ export const select = {
       input: 'input.amount', // CODE CHANGED
       linkDecrease: 'a[href="#less"]',
       linkIncrease: 'a[href="#more"]',
+    // hourInput: '[name="hours"]',
     },
     datePicker: {
       wrapper: '.date-picker',
@@ -44,7 +45,7 @@ export const select = {
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
     form: '.booking-form',
-    starters: '.starter',
+    starters: '[name="starter"]',
     phone: '[name="phone"]',
     address: '[name="address"]',
   },
@@ -87,7 +88,7 @@ export const classNames = {
   booking: {
     loading: 'loading',
     tableBooked: 'booked',
-    tableReserved: 'reserved',
+    tableSelected: 'selected',
   },
   nav: {
     active: 'active',

@@ -183,7 +183,15 @@ class Booking {
     for (let table of thisBooking.dom.tables) {
       table.addEventListener('click', function () {
         if (!(table.classList.contains(classNames.booking.tableBooked))) {
-          table.classList.toggle(classNames.booking.tableReserved);
+          table.classList.toggle(classNames.booking.tableSelected);
+        }
+      });
+    }
+    thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
+    for (let table of thisBooking.dom.tables) {
+      thisBooking.dom.form.addEventListener('submit', function() {
+        if (table.classList.contains(classNames.booking.tableSelected)) {
+          table.classList.remove(classNames.booking.tableSelected) || table.classList.add(classNames.booking.tableBooked);
         }
       });
     }
@@ -221,13 +229,13 @@ class Booking {
     }
 
     for (let table of thisBooking.dom.tables) {
-      if (table.classList.contains(classNames.booking.tableReserved)) {
+      if (table.classList.contains(classNames.booking.tableSelected)) {
         let tableId = table.getAttribute(settings.booking.tableIdAttribute);
         if (!isNaN(tableId)) {
           tableId = parseInt(tableId);
         }
         payload.tables.push(tableId);
-        table.classList.remove(classNames.booking.tableReserved);
+        table.classList.remove(classNames.booking.tableSelected);
       }
     }
 
@@ -246,13 +254,6 @@ class Booking {
         console.log(parsedResponse);
       });
 
-    //thisBooking.editLinkBooking = document.querySelector('.edit-link-booking');
-
-    //const editUrl = window.location + '/' + payload.uuid;
-
-    //thisBooking.editLinkBooking.setAttribute('href', editUrl);
-
-    //thisBooking.editLinkBooking.innerHTML = 'Edit your booking';
   }
 }
 export default Booking;

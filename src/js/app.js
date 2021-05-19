@@ -75,7 +75,7 @@ const app = {
 
   initMenu: function(){
     const thisApp = this;
-    console.log('thisApp.data:', thisApp.data);
+    //console.log('thisApp.data:', thisApp.data);
     for(let productData in thisApp.data.products){
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
     }
@@ -98,7 +98,6 @@ const app = {
 
     const bookingContainer = document.querySelector(select.containerOf.booking);
     thisApp.booking = new Booking(bookingContainer);
-
   },
   init: function(){
     const thisApp = this;

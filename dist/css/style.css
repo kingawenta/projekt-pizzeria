@@ -794,7 +794,7 @@ input.error, select.error {
   opacity: 0.4;
 }
 
-.floor-plan .table.reserved {
+.floor-plan .table.selected {
   background: red;
 }
 
