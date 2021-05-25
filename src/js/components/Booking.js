@@ -75,11 +75,11 @@ class Booking {
     thisBooking.booked = {};
 
     for(let item of booking){
-      thisBooking.makeBooked(item.date, item.hour, item.duration, item.tables.map(it => parseInt(it)));
+      thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
     }
 
     for (let item of eventsCurrent) {
-      thisBooking.makeBooked(item.date, item.hour, item.duration, [item.table]);
+      thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
     }
 
     const minDate = thisBooking.datePicker.minDate;
@@ -89,7 +89,7 @@ class Booking {
       if (item.repeat == 'daily') {
         for (let loopDate = minDate; loopDate <= maxDate; loopDate = utils.addDays(loopDate, 1)) {
 
-          thisBooking.makeBooked(utils.dateToStr(loopDate), item.hour, item.duration, [item.table]);
+          thisBooking.makeBooked(utils.dateToStr(loopDate), item.hour, item.duration, item.table);
         }
       }
     }
@@ -161,7 +161,6 @@ class Booking {
     thisBooking.dom.starters = document.getElementsByName('starter');
     thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.phone);
     thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.address);
-
     bookingContainer.appendChild(thisBooking.dom.wrapper);
   }
 
@@ -187,19 +186,12 @@ class Booking {
         }
       });
     }
-    thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
-    for (let table of thisBooking.dom.tables) {
-      thisBooking.dom.form.addEventListener('submit', function() {
-        if (table.classList.contains(classNames.booking.tableSelected)) {
-          table.classList.remove(classNames.booking.tableSelected) || table.classList.add(classNames.booking.tableBooked);
-        }
-      });
-    }
   }
   initActions() {
     const thisBooking = this;
 
     thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
+    console.log('thisBooking.dom.from', thisBooking.dom.form);
     thisBooking.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
       thisBooking.sendBooking();
@@ -207,13 +199,24 @@ class Booking {
 
   }
 
+  removeSelected() {
+    const thisBooking = this;
+    const selectedTables = thisBooking.dom.wrapper.querySelectorAll('.' + classNames.booking.tableSelected);
+
+    for (const selectTable of selectedTables) {
+      selectTable.classList.remove(classNames.booking.tableSelected);
+    }
+  }
+
   sendBooking() {
     const thisBooking = this;
 
     const url = settings.db.url + '/' + settings.db.booking;
 
+    const selectedTable = thisBooking.dom.wrapper.querySelector('.' + classNames.booking.tableSelected);
+
     const payload = {
-      tables: [],
+      table: parseInt(selectedTable.getAttribute('data-table')),
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       duration: thisBooking.hoursAmount.value,
@@ -225,17 +228,6 @@ class Booking {
     for (let starter of thisBooking.dom.starters) {
       if (starter.checked === true) {
         payload.starters.push(starter.value);
-      }
-    }
-
-    for (let table of thisBooking.dom.tables) {
-      if (table.classList.contains(classNames.booking.tableSelected)) {
-        let tableId = table.getAttribute(settings.booking.tableIdAttribute);
-        if (!isNaN(tableId)) {
-          tableId = parseInt(tableId);
-        }
-        payload.tables.push(tableId);
-        table.classList.remove(classNames.booking.tableSelected);
       }
     }
 
@@ -251,7 +243,9 @@ class Booking {
       .then(function (response) {
         return response.json();
       }).then(function (parsedResponse) {
-        console.log(parsedResponse);
+        thisBooking.removeSelected();
+        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
+        thisBooking.updateDOM;
       });
 
   }
