@@ -245,7 +245,7 @@ class Booking {
       }).then(function (parsedResponse) {
         thisBooking.removeSelected();
         thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
-        thisBooking.updateDOM;
+        thisBooking.updateDOM();
       });
 
   }
